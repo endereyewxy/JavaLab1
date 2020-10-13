@@ -12,7 +12,7 @@ import java.util.LinkedList;
  */
 public abstract class Database {
     public static final String DRIVER = "org.sqlite.JDBC";
-    public static final String DB_URL = "";
+    public static final String DB_URL = "jdbc:sqlite:/home/endereye/Workspace/JavaLab1/endereye/test.sqlite";
 
     public static final int INC_COUNT = 5;
     public static final int MAX_COUNT = 10;

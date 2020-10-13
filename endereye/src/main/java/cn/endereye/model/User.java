@@ -1,3 +1,5 @@
+// Created by endereyewxy@gmail.com, 2020.10.13
+
 package cn.endereye.model;
 
 import cn.endereye.util.MD5;

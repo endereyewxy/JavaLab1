@@ -1,3 +1,5 @@
+// Created by endereyewxy@gmail.com, 2020.10.13
+
 package cn.endereye.util;
 
 import java.nio.charset.StandardCharsets;
@@ -23,7 +25,7 @@ public abstract class MD5 {
             final byte[] digest = digester.digest(s.getBytes(StandardCharsets.UTF_8));
             final StringBuilder builder = new StringBuilder();
             for (byte b : digest)
-                builder.append(Integer.toHexString((b | 0xFF) | 0x100), 1, 3);
+                builder.append(Integer.toHexString((b & 0xFF) | 0x100), 1, 3);
             return builder.toString();
         } catch (NoSuchAlgorithmException e) {
             return null;

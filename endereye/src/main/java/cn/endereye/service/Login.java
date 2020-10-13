@@ -1,3 +1,5 @@
+// Created by endereyewxy@gmail.com, 2020.10.13
+
 package cn.endereye.service;
 
 import cn.endereye.model.User;
@@ -14,6 +16,7 @@ public abstract class Login {
                 connection.prepareStatement("SELECT * FROM `user` WHERE `username` = ? AND `password` = ?");
         statement.setString(1, user.username);
         statement.setString(2, user.passwordMd5);
+        // The username and password is correct if and only if the result set is not empty.
         final boolean result = statement.executeQuery().next();
         Database.closeConnection(connection);
         return result;
