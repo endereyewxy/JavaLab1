@@ -2,9 +2,6 @@
   Created by endereyewxy@gmail.com, 2020.10.12
 --%>
 
-<%@ page import="cn.endereye.service.Login" %>
-<%@ page import="cn.endereye.model.User" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="zh">
 <head>
@@ -59,23 +56,17 @@
     <input autofocus class="form-control" id="username" name="username" placeholder="用户名" required type="text">
     <label class="sr-only" for="password">密码</label>
     <input class="form-control" id="password" name="password" placeholder="密码" required type="password">
+    <input name="from" type="hidden" value="<%=request.getParameter("from")%>">
     <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
 </form>
 <%
-    if ("POST".equals(request.getMethod())) {
-        try {
-            final boolean success = Login.verifyPassword(new User(
-                    request.getParameter("username"),
-                    request.getParameter("password")));
+    final String error = request.getParameter("error");
+    if (error != null) {
 %>
-<div class="alert alert-<%=success ? "success" : "danger"%>" role="alert">
-    <%=success ? "登录成功" : "登录失败"%>
+<div class="alert alert-danger">
+    <%=error%>
 </div>
 <%
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.sendError(500, "数据库错误");
-        }
     }
 %>
 </body>
