@@ -51,6 +51,6 @@ public class Login extends HttpServlet {
             throws IOException {
         response.sendRedirect(String.format("/?from=%s&error=%s",
                 URLEncoder.encode(request.getParameter("from")),
-                URLEncoder.encode((error))));
+                URLEncoder.encode(error,"utf-8")));
     }
 }
