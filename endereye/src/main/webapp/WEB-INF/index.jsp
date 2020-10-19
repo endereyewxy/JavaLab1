@@ -50,7 +50,7 @@
     </style>
 </head>
 <body class="text-center">
-<form action="" method="post">
+<form action="" method="post"> <!--TODO Bug: consider context -->
     <h1 class="h3 mb-3 font-weight-normal">登录</h1>
     <label class="sr-only" for="username">用户名</label>
     <input autofocus class="form-control" id="username" name="username" placeholder="用户名" required type="text">
