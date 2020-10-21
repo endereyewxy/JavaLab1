@@ -5,15 +5,41 @@ package cn.endereye.model;
 import cn.endereye.util.MD5;
 
 public class User {
-    public final String username;
+    private int id;
 
-    public final String passwordMd5;
+    private String username;
 
-    public final String passwordRaw;
+    private String password;
 
-    public User(String username, String password) {
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public User setUsername(String username) {
         this.username = username;
-        this.passwordMd5 = MD5.md5(password);
-        this.passwordRaw = password;
+        return this;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public User setPasswordRaw(String password) {
+        this.password = MD5.md5(password);
+        return this;
     }
 }

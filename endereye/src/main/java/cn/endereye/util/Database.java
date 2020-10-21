@@ -17,21 +17,26 @@ public abstract class Database {
     public static final int INC_COUNT = 5;
     public static final int MAX_COUNT = 10;
 
+    @FunctionalInterface
+    public interface Task<T> {
+        T apply(Connection connection) throws SQLException;
+    }
+
     private static final LinkedList<Connection> CONNECTIONS = new LinkedList<>();
 
     static {
         try {
             Class.forName(DRIVER);
-            increaseConnections();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.exit(0);
         }
     }
 
     public synchronized static Connection getConnection() throws SQLException {
-        if (CONNECTIONS.isEmpty())
+        if (CONNECTIONS.isEmpty()) {
             increaseConnections();
+        }
         return CONNECTIONS.removeFirst();
     }
 
@@ -39,6 +44,13 @@ public abstract class Database {
         connection.close();
         if (CONNECTIONS.size() < MAX_COUNT)
             CONNECTIONS.addLast(connection);
+    }
+
+    public static <T> T execute(Task<T> task) throws SQLException {
+        final Connection connection = getConnection();
+        final T result = task.apply(connection);
+        closeConnection(connection);
+        return result;
     }
 
     private static void increaseConnections() throws SQLException {

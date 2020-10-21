@@ -6,6 +6,7 @@
 <html lang="zh">
 <head>
     <title>登录实验</title>
+    <meta charset="UTF-8">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"
           integrity="sha256-IdfIcUlaMBNtk4Hjt0Y6WMMZyMU0P9PN/pH+DFzKxbI=" rel="stylesheet">
     <script crossorigin="anonymous"
@@ -50,7 +51,7 @@
     </style>
 </head>
 <body class="text-center">
-<form action="" method="post"> <!--TODO Bug: consider context -->
+<form action="." method="post">
     <h1 class="h3 mb-3 font-weight-normal">登录</h1>
     <label class="sr-only" for="username">用户名</label>
     <input autofocus class="form-control" id="username" name="username" placeholder="用户名" required type="text">
@@ -60,8 +61,9 @@
     <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
 </form>
 <%
-    final String error = request.getParameter("error");
+    final String error = (String) request.getSession().getAttribute("errorMsg");
     if (error != null) {
+        request.getSession().removeAttribute("errorMsg"); // error messages should display just once
 %>
 <div class="alert alert-danger">
     <%=error%>
