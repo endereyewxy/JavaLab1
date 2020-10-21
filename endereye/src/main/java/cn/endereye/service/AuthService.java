@@ -49,7 +49,7 @@ public abstract class AuthService {
                 .setSigningKey(KEY_REFRESH.getBytes())
                 .parseClaimsJws(token)
                 .getBody();
-        // Validate expiration time. Simply returns failure if expiration time is not before the current time.
+        // Validate expiration time.
         if (claims.getExpiration().before(new Date()))
             return null;
         return Database.execute(connection -> {
@@ -57,14 +57,19 @@ public abstract class AuthService {
                     connection.prepareStatement("SELECT * FROM `user` WHERE `id` = ?");
             statement.setInt(1, (int) claims.get("id"));
             final ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next())
+                return null;
             // Get information from the database instead of the JWT toke, since information may be updated.
-            return resultSet.next()
-                    ? (
-                    new User()
-                            .setId(resultSet.getInt("id"))
-                            .setUsername(resultSet.getString("username"))
-                            .setPassword(resultSet.getString("password")))
-                    : null;
+            final User user = new User()
+                    .setId(resultSet.getInt("id"))
+                    .setUsername(resultSet.getString("username"))
+                    .setPassword(resultSet.getString("password"))
+                    .setSerial(resultSet.getLong("serial"));
+            // The issued time must be later than the last sensitive operation time. In other words, there must be no
+            // sign out or password change after the token has been issued.
+            if (claims.getIssuedAt().before(new Date(user.getSerial())))
+                return null;
+            return user;
         });
     }
 

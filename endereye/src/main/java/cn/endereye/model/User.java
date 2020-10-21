@@ -11,6 +11,8 @@ public class User {
 
     private String password;
 
+    private long serial;
+
     public int getId() {
         return id;
     }
@@ -21,6 +23,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public long getSerial() {
+        return serial;
     }
 
     public User setId(int id) {
@@ -40,6 +46,11 @@ public class User {
 
     public User setPasswordRaw(String password) {
         this.password = MD5.md5(password);
+        return this;
+    }
+
+    public User setSerial(long serial) {
+        this.serial = serial;
         return this;
     }
 }
