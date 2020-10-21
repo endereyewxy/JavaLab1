@@ -73,6 +73,17 @@ public abstract class AuthService {
         });
     }
 
+    public static void signOut(User user) throws SQLException {
+        Database.execute(connection -> {
+            final PreparedStatement statement =
+                    connection.prepareStatement("UPDATE `user` SET `serial` = ? WHERE `id` = ?");
+            statement.setLong(1, new Date().getTime());
+            statement.setInt(2, user.getId());
+            statement.executeUpdate();
+            return null;
+        });
+    }
+
     public static String acquireRefreshToken(User user) {
         return buildJWT(user, TTL_REFRESH, KEY_REFRESH);
     }

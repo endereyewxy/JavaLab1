@@ -22,25 +22,12 @@ public class SignIn extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         try {
-            String refreshToken = null;
-            if (request.getCookies() != null) {
-                for (Cookie cookie : request.getCookies()) {
-                    // Find the cookie named "refresh".
-                    // There should be just one cookie named this, but we will take the last one anyway.
-                    if ("refresh".equals(cookie.getName()))
-                        refreshToken = cookie.getValue();
-                }
-            }
-            if (refreshToken != null) {
-                // Try to sign in using the refresh token. If failed, switch to normal sign in page instead.
-                final User user = AuthService.signInByRefreshToken(refreshToken);
-                if (user != null) {
-                    signInSuccess(request, response, user);
-                    return;
-                }
-            }
-            // Otherwise.
-            request.getRequestDispatcher("/sign-in.jsp").forward(request, response);
+            // Try to sign in using the refresh token. If failed, switch to normal sign in page instead.
+            final User user = signInByRefreshToken(request);
+            if (user != null)
+                signInSuccess(request, response, user);
+            else
+                request.getRequestDispatcher("/sign-in.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
             signInFailed(request, response, "数据库错误");
@@ -64,8 +51,26 @@ public class SignIn extends HttpServlet {
         }
     }
 
+    static User signInByRefreshToken(HttpServletRequest request) throws SQLException {
+        String refreshToken = null;
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                // Find the cookie named "refresh".
+                // There should be just one cookie named this, but we will take the last one anyway.
+                if ("refresh".equals(cookie.getName()))
+                    refreshToken = cookie.getValue();
+            }
+        }
+        if (refreshToken != null)
+            // Try to sign in using the refresh token. If failed, switch to normal sign in page instead.
+            return AuthService.signInByRefreshToken(refreshToken);
+        else
+            return null;
+    }
+
     private void signInSuccess(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
         final Cookie refreshCookie = new Cookie("refresh", AuthService.acquireRefreshToken(user));
+        refreshCookie.setPath("/auth");
         final Cookie accessCookie = new Cookie("token", AuthService.acquireAccessToken(user));
         accessCookie.setPath("/");
         response.addCookie(refreshCookie);
