@@ -11,5 +11,5 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # local IDEA configurations
-endereye/.idea
-endereye/*.iml
+auth/.idea
+auth/*.iml
