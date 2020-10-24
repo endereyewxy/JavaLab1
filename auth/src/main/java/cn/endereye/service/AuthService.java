@@ -5,6 +5,7 @@ package cn.endereye.service;
 import cn.endereye.model.User;
 import cn.endereye.util.Database;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -45,13 +46,15 @@ public abstract class AuthService {
     }
 
     public static User signInByRefreshToken(String token) throws SQLException {
-        final Claims claims = Jwts.parser()
-                .setSigningKey(KEY_REFRESH.getBytes())
-                .parseClaimsJws(token)
-                .getBody();
-        // Validate expiration time.
-        if (claims.getExpiration().before(new Date()))
+        final Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(KEY_REFRESH.getBytes())
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
             return null;
+        }
         return Database.execute(connection -> {
             final PreparedStatement statement =
                     connection.prepareStatement("SELECT * FROM `user` WHERE `id` = ?");
