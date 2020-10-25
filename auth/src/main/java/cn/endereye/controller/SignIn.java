@@ -4,6 +4,7 @@ package cn.endereye.controller;
 
 import cn.endereye.model.User;
 import cn.endereye.service.AuthService;
+import cn.endereye.util.Redirect;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/sign-in/")
@@ -25,12 +25,12 @@ public class SignIn extends HttpServlet {
             // Try to sign in using the refresh token. If failed, switch to normal sign in page instead.
             final User user = signInByRefreshToken(request);
             if (user != null)
-                signInSuccess(request, response, user);
+                Redirect.success(request, response, user);
             else
                 request.getRequestDispatcher("/sign-in.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
-            signInFailed(request, response, "数据库错误");
+            Redirect.failed(request, response, "数据库错误");
         }
     }
 
@@ -42,12 +42,12 @@ public class SignIn extends HttpServlet {
                     .setUsername(request.getParameter("username"))
                     .setPasswordRaw(request.getParameter("password")));
             if (user != null)
-                signInSuccess(request, response, user);
+                Redirect.success(request, response, user);
             else
-                signInFailed(request, response, "登录失败");
+                Redirect.failed(request, response, "登录失败");
         } catch (SQLException e) {
             e.printStackTrace();
-            signInFailed(request, response, "数据库错误");
+            Redirect.failed(request, response, "数据库错误");
         }
     }
 
@@ -66,24 +66,5 @@ public class SignIn extends HttpServlet {
             return AuthService.signInByRefreshToken(refreshToken);
         else
             return null;
-    }
-
-    private void signInSuccess(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
-        final Cookie refreshCookie = new Cookie("refresh", AuthService.acquireRefreshToken(user));
-        refreshCookie.setPath("/auth");
-        final Cookie accessCookie = new Cookie("token", AuthService.acquireAccessToken(user));
-        accessCookie.setPath("/");
-        response.addCookie(refreshCookie);
-        response.addCookie(accessCookie);
-        response.sendRedirect(request.getParameter("from"));
-    }
-
-    private void signInFailed(HttpServletRequest request, HttpServletResponse response, String error)
-            throws IOException {
-        request.getSession().setAttribute("errorMsg", error);
-        // We must use a redirect since we need to add the `from` parameter into the URL.
-        response.sendRedirect(String.format("%s?from=%s",
-                request.getRequestURL(),
-                URLEncoder.encode(request.getParameter("from"), "UTF-8")));
     }
 }
