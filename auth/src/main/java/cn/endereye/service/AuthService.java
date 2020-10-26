@@ -4,15 +4,14 @@ package cn.endereye.service;
 
 import cn.endereye.model.User;
 import cn.endereye.util.Database;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import cn.endereye.util.MD5;
+import io.jsonwebtoken.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Provide services to authenticate a user or token. There are two types of tokens: refresh token and access token. Both
@@ -27,9 +26,11 @@ public abstract class AuthService {
 
     public static final long TTL_ACCESS = 600000L; // ten minutes
 
-    public static final String KEY_REFRESH = "some key";
+    public static final String KEY_REFRESH =
+            Objects.requireNonNull(MD5.md5("KEY_REFRESH" + System.getenv().toString()));
 
-    public static final String KEY_ACCESS = "another key";
+    public static final String KEY_ACCESS =
+            Objects.requireNonNull(MD5.md5("KEY_ACCESS" + System.getenv().toString()));
 
     public static User signInByUsernameAndPassword(User user) throws SQLException {
         return Database.execute(connection -> {
@@ -52,7 +53,7 @@ public abstract class AuthService {
                     .setSigningKey(KEY_REFRESH.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
             return null;
         }
         return Database.execute(connection -> {
@@ -93,7 +94,6 @@ public abstract class AuthService {
 
     public static String acquireAccessToken(User user) {
         return buildJWT(user, TTL_ACCESS, KEY_ACCESS);
-
     }
 
     private static String buildJWT(User user, long ttl, String key) {
