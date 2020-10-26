@@ -1,3 +1,5 @@
+.*
+
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -13,3 +15,5 @@ buildNumber.properties
 # local IDEA configurations
 endereye/.idea
 endereye/*.iml
+2048/.idea
+2048/*.iml

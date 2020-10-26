@@ -6,7 +6,22 @@ html, body {
   color: #776e65;
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px; }
-
+table
+{
+  line-height: 2em;
+  min-width: 24px;
+  border: 1px solid #d4d4d4;
+  padding: 4px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  vertical-align: top;
+  width:100%;
+}
+td
+{
+  border: 1px solid #d4d4d4;
+  text-align:center;
+}
 body {
   margin: 80px 0; }
 
@@ -90,10 +105,10 @@ h1.title {
     animation-fill-mode: both; }
 
 .score-container:after {
-  content: "Score"; }
+  content: "分数"; }
 
 .best-container:after {
-  content: "Best"; }
+  content: "最高"; }
 
 p {
   margin-top: 0;
@@ -530,6 +545,18 @@ hr {
   text-align: center;
   float: right; }
 
+.rank-button {
+  display: inline-block;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  text-decoration: none;
+  color: #f9f6f2;
+  height: 40px;
+  line-height: 42px;
+  display: block;
+  text-align: center;
+  float: right; }
 .game-explanation {
   margin-top: 50px; }
 
