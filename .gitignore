@@ -11,5 +11,7 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # local IDEA configurations
+.idea
+*.iml
 endereye/.idea
 endereye/*.iml
