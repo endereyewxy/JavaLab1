@@ -23,14 +23,18 @@ public class SignIn extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try {
             // Try to sign in using the refresh token. If failed, switch to normal sign in page instead.
-            final User user = signInByRefreshToken(request);
-            if (user != null)
-                Redirect.success(request, response, user);
-            else
-                request.getRequestDispatcher("/sign-in.jsp").forward(request, response);
+            // Only try to do this when not displaying error message.
+            if (request.getSession().getAttribute("error") == null) {
+                final User user = signInByRefreshToken(request);
+                if (user != null) {
+                    Redirect.success(request, response, user);
+                    return;
+                }
+            }
+            request.getRequestDispatcher("/sign-in.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
-            Redirect.failed(request, response, "数据库错误");
+            Redirect.failed(request, response, "数据库错误 " + e.toString());
         }
     }
 

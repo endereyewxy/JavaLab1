@@ -8,14 +8,14 @@ import java.sql.SQLException;
 
 public abstract class UserService {
     public static User signUp(User user) throws SQLException {
-        return Database.execute(connection -> {
+        Database.execute(connection -> {
             final PreparedStatement statement =
-                    connection.prepareStatement("INSERT INTO `user` (`username`, `password`) VALUES (?,?)");
+                    connection.prepareStatement("INSERT INTO `user` (`username`, `password`) VALUES (?, ?)");
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.executeUpdate();
-            return AuthService.signInByUsernameAndPassword(user);
+            return null;
         });
+        return AuthService.signInByUsernameAndPassword(user);
     }
-
 }
