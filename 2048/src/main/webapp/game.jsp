@@ -74,7 +74,7 @@
     </div>
     <hr>
   </div>
-
+  <script src="js/jquery.slim.min.js"></script>
   <script src="js/bind_polyfill.js"></script>
   <script src="js/classlist_polyfill.js"></script>
   <script src="js/animframe_polyfill.js"></script>
