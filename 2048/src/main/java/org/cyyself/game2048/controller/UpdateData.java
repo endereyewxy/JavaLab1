@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/UpdateData")
-public class UpdateAllData extends HttpServlet {
+public class UpdateData extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -25,8 +25,8 @@ public class UpdateAllData extends HttpServlet {
         }
         else {
             User user = new User((String)session.getAttribute("user_id"));
-            user.setStatus((String)req.getParameter("status"));
-            user.setScore(Integer.parseInt(req.getParameter("score")));
+            if (req.getParameter("status") != null) user.setStatus((String)req.getParameter("status"));
+            if (req.getParameter("score") != null) user.setScore(Integer.parseInt(req.getParameter("score")));
             out.print("{\"status\":0,\"msg\":\"OK\"}");
         }
         out.close();

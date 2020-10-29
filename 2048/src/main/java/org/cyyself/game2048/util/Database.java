@@ -22,7 +22,7 @@ public abstract class Database {
         try {
             Connection connection = DriverManager.getConnection(DB_URL);
             Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS `score` (`user_id` TEXT PRIMARY KEY, `score` INTEGER);");
+            statement.execute("CREATE TABLE IF NOT EXISTS `user` (`user_id` TEXT PRIMARY KEY, `score` INTEGER NOT NULL, `status` TEXT);");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

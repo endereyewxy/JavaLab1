@@ -45,8 +45,22 @@ LocalStorageManager.prototype.getBestScore = function () {
 };
 
 LocalStorageManager.prototype.setBestScore = function (score) {
+  jQuery.ajax({
+    type: 'POST',
+    url: 'UpdateData',
+    data: {
+      'score': score
+    },
+    success: function(data){
+      if (data.status === 0) console.log("update success");
+      else console.log("update failed");
+    },
+    dataType: 'json',
+    error: function(){
+      console.log("update error");
+    }
+  });
   this.storage.setItem(this.bestScoreKey, score);
-
 };
 
 // Game state getters/setters and clearing
@@ -56,9 +70,24 @@ LocalStorageManager.prototype.getGameState = function () {
 };
 
 LocalStorageManager.prototype.setGameState = function (gameState) {
+  //upload to server
+  jQuery.ajax({
+    type: 'POST',
+    url: 'UpdateData',
+    data: {
+      'status': JSON.stringify(gameState)
+    },
+    success: function(data){
+      if (data.status === 0) console.log("update success");
+      else console.log("update failed");
+    },
+    dataType: 'json',
+    error: function(){
+      console.log("update error");
+    }
+  });
   this.storage.setItem(this.gameStateKey, JSON.stringify(gameState));
 };
-
 LocalStorageManager.prototype.clearGameState = function () {
   this.storage.removeItem(this.gameStateKey);
 };

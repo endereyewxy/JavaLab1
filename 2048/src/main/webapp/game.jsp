@@ -30,6 +30,18 @@
       <p class="game-intro">合并数字得到2048！</p>
       <a class="restart-button">新游戏</a>
       <a class="rank-button" href="ranklist.jsp">排行榜</a>
+      <%
+        if (session.getAttribute("user_id") == null) {
+      %>
+      <a class="user-button" href="Login">登录</a>
+      <%
+        }
+        else {
+      %>
+      <a class="user-button" href="Logout">已登录为<%=session.getAttribute("user_id") %></a>
+      <%
+        }
+      %>
     </div>
 
     <div class="game-container">
@@ -74,7 +86,7 @@
     </div>
     <hr>
   </div>
-  <script src="js/jquery.slim.min.js"></script>
+  <script src="js/jquery.min.js"></script>
   <script src="js/bind_polyfill.js"></script>
   <script src="js/classlist_polyfill.js"></script>
   <script src="js/animframe_polyfill.js"></script>

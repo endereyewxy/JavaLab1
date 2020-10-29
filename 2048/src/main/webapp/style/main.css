@@ -533,6 +533,7 @@ hr {
   margin-bottom: 0; }
 
 .restart-button {
+  font-size: 16px;
   display: inline-block;
   background: #8f7a66;
   border-radius: 3px;
@@ -546,6 +547,20 @@ hr {
   float: right; }
 
 .rank-button {
+  font-size: 16px;
+  display: inline-block;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  text-decoration: none;
+  color: #f9f6f2;
+  height: 40px;
+  line-height: 42px;
+  display: block;
+  text-align: center;
+  float: right; }
+.user-button {
+  font-size: 11px;
   display: inline-block;
   background: #8f7a66;
   border-radius: 3px;

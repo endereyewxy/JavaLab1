@@ -10,19 +10,19 @@ import java.util.List;
 
 public class Board {
     public static List<UserScore> GetBoard() {
-        List<UserScore> res = new ArrayList<>();
         try {
-            Database.execute(connection -> {
+            return Database.execute(connection -> {
+                List<UserScore> res = new ArrayList<>();
                 Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM `score` ORDER BY `score`;");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `user` ORDER BY `score` DESC;");
                 while (rs.next()) {
                     res.add(new UserScore(rs.getString("user_id"),rs.getInt("score")));
                 }
-                return null;
+                return res;
             });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return null;
         }
-        return res;
     }
 }
