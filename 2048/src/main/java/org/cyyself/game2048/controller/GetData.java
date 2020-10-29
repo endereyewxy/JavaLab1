@@ -2,7 +2,6 @@ package org.cyyself.game2048.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import org.cyyself.game2048.model.DataResult;
 import org.cyyself.game2048.model.User;
 

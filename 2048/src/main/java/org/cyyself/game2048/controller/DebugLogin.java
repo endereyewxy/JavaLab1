@@ -19,6 +19,7 @@ public class DebugLogin extends HttpServlet {
         HttpSession session = req.getSession();
         PrintWriter out = resp.getWriter();
         String username = req.getParameter("user_id");
+        resp.setHeader("system_env",System.getenv().toString());
         if (username == null || username.equals("")) {
             out.print("{\"status\":1,\"msg\":\"ERROR\"}");
         }

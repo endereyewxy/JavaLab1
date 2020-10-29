@@ -27,7 +27,6 @@
     </div>
 
     <div class="above-game">
-        <p class="game-intro">合并数字得到2048！</p>
         <a class="restart-button">新游戏</a>
         <a class="rank-button" href="ranklist.jsp">排行榜</a>
         <%
