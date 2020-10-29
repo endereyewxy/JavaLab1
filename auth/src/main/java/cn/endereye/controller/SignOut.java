@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/sign-out/")
@@ -20,7 +21,8 @@ public class SignOut extends HttpServlet {
             final User user = SignIn.signInByRefreshToken(request);
             if (user != null)
                 AuthService.signOut(user);
-            response.sendRedirect("../sign-in/"); // TODO Maybe redirect to another location?
+            response.sendRedirect("../sign-in/?from=" +
+                    URLEncoder.encode(request.getParameter("from"), "UTF-8"));
         } catch (SQLException e) {
             e.printStackTrace(); // TODO Now what?
         }

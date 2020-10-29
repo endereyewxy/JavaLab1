@@ -24,7 +24,7 @@ public class SignIn extends HttpServlet {
         try {
             // Try to sign in using the refresh token. If failed, switch to normal sign in page instead.
             // Only try to do this when not displaying error message.
-            if (request.getSession().getAttribute("error") == null) {
+            if (request.getSession().getAttribute("errorMsg") == null) {
                 final User user = signInByRefreshToken(request);
                 if (user != null) {
                     Redirect.success(request, response, user);
