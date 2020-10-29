@@ -33,4 +33,4 @@ TODO 如果`<from-url>`为空怎么办？
 
 ### 登出
 
-重定向到`/auth/sign-out/?from=<from-url>`，之后会自动跳转到`/auth/sign-in/?from=<from-url>`。
+重定向到`/auth/sign-out/?from=<from-url>`，之后会自动跳转到`<from-url>`。
