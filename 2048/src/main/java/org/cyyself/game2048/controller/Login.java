@@ -13,7 +13,7 @@ import io.jsonwebtoken.*;
 public class Login extends HttpServlet {
     public static final long TTL_ACCESS = 600000L; // ten minutes
     public static final String KEY_ACCESS =
-            Objects.requireNonNull(MD5.md5("KEY_ACCESS"));
+            Objects.requireNonNull(MD5.md5("KEY_ACCESS" + System.getenv().toString()));
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
