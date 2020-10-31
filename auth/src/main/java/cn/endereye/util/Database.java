@@ -7,8 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract class Database {
-    public static final String DRIVER = "org.sqlite.JDBC";
-    public static final String DB_URL = "jdbc:sqlite:/home/endereye/Workspace/JavaLab1/endereye/test.sqlite";
+    public static final String DRIVER = System.getProperty("auth.jdbc.driver");
+    public static final String DB_URL = System.getProperty("auth.jdbc.db_url");
 
     @FunctionalInterface
     public interface Task<T> {
