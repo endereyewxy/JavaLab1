@@ -32,6 +32,13 @@ public abstract class AuthService {
     public static final String KEY_ACCESS =
             Objects.requireNonNull(MD5.md5("KEY_ACCESS" + System.getenv().toString()));
 
+    /**
+     * Verify a pair of given username and password.
+     *
+     * @param user User object providing username and password.
+     * @return User object with ID and other information updated if success, null if failed.
+     * @throws SQLException Database error.
+     */
     public static User signInByUsernameAndPassword(User user) throws SQLException {
         return Database.execute(connection -> {
             final PreparedStatement statement =
@@ -46,6 +53,13 @@ public abstract class AuthService {
         });
     }
 
+    /**
+     * Verify a refresh token.
+     *
+     * @param token Refresh token string.
+     * @return The corresponding user object with everything updated if success, null if failed.
+     * @throws SQLException Database error.
+     */
     public static User signInByRefreshToken(String token) throws SQLException {
         final Claims claims;
         try {
@@ -54,6 +68,7 @@ public abstract class AuthService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+            // TODO Distinguish between different errors.
             return null;
         }
         return Database.execute(connection -> {
@@ -63,7 +78,7 @@ public abstract class AuthService {
             final ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next())
                 return null;
-            // Get information from the database instead of the JWT toke, since information may be updated.
+            // Use information from the database instead of the JWT toke, since information may be updated.
             final User user = new User()
                     .setId(resultSet.getInt("id"))
                     .setUsername(resultSet.getString("username"))
@@ -77,6 +92,12 @@ public abstract class AuthService {
         });
     }
 
+    /**
+     * Announce all refresh tokens to be invalid for a certain user.
+     *
+     * @param user User object providing user ID only.
+     * @throws SQLException Database error.
+     */
     public static void signOut(User user) throws SQLException {
         Database.execute(connection -> {
             final PreparedStatement statement =

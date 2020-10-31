@@ -34,7 +34,7 @@ public class SignIn extends HttpServlet {
             request.getRequestDispatcher("/sign-in.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
-            Redirect.failed(request, response, "数据库错误 " + e.toString());
+            Redirect.failed(request, response, "数据库错误 " + e.getErrorCode());
         }
     }
 
@@ -51,7 +51,7 @@ public class SignIn extends HttpServlet {
                 Redirect.failed(request, response, "登录失败");
         } catch (SQLException e) {
             e.printStackTrace();
-            Redirect.failed(request, response, "数据库错误");
+            Redirect.failed(request, response, "数据库错误 " + e.getErrorCode());
         }
     }
 

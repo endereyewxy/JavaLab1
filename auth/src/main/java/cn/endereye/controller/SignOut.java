@@ -21,8 +21,7 @@ public class SignOut extends HttpServlet {
             final User user = SignIn.signInByRefreshToken(request);
             if (user != null)
                 AuthService.signOut(user);
-            response.sendRedirect("../sign-in/?from=" +
-                    URLEncoder.encode(request.getParameter("from"), "UTF-8"));
+            response.sendRedirect(URLEncoder.encode(request.getParameter("from"), "UTF-8"));
         } catch (SQLException e) {
             e.printStackTrace(); // TODO Now what?
         }

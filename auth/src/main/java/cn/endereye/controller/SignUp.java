@@ -15,22 +15,26 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/sign-up/")
 public class SignUp extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        req.getRequestDispatcher("/sign-up.jsp").forward(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        request.getRequestDispatcher("/sign-up.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         try {
-            User user = UserService.signUp(new User()
-                    .setUsername(req.getParameter("username"))
-                    .setPasswordRaw(req.getParameter("password")));
-            Redirect.success(req, resp, user);
+            final User user = UserService.signUp(new User()
+                    .setUsername(request.getParameter("username"))
+                    .setPasswordRaw(request.getParameter("password")));
+            if (user == null)
+                Redirect.failed(request, response, "用户名冲突");
+            else
+                Redirect.success(request, response, user);
         } catch (SQLException e) {
             e.printStackTrace();
-            Redirect.failed(req, resp, "数据库错误");
+            Redirect.failed(request, response, "数据库错误 " + e.getErrorCode());
         }
     }
 }
