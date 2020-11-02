@@ -41,15 +41,23 @@ public abstract class AuthService {
      */
     public static User signInByUsernameAndPassword(User user) throws SQLException {
         return Database.execute(connection -> {
-            final PreparedStatement statement =
+            final PreparedStatement stmtQuery =
                     connection.prepareStatement("SELECT * FROM `user` WHERE `username` = ? AND `password` = ?");
-            statement.setString(1, user.getUsername());
-            statement.setString(2, user.getPassword());
+            stmtQuery.setString(1, user.getUsername());
+            stmtQuery.setString(2, user.getPassword());
             // The username and password is correct if and only if the result set is not empty.
-            final ResultSet resultSet = statement.executeQuery();
-            return resultSet.next()
-                    ? user.setId(resultSet.getInt("id"))
-                    : null;
+            final ResultSet resultSet = stmtQuery.executeQuery();
+            if (resultSet.next()) {
+                user.setId(resultSet.getInt("id"));
+                // Update serial number and logout other users.
+                final PreparedStatement stmtSignOut =
+                        connection.prepareStatement("UPDATE `user` SET `serial` = ? WHERE `id` = ?");
+                stmtSignOut.setLong(1, new Date().getTime());
+                stmtSignOut.setInt(2, user.getId());
+                stmtSignOut.executeUpdate();
+                return user;
+            }
+            return null;
         });
     }
 
@@ -67,7 +75,7 @@ public abstract class AuthService {
                     .setSigningKey(KEY_REFRESH.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
             // TODO Distinguish between different errors.
             return null;
         }

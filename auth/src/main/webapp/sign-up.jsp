@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="zh">
 <head>
-    <title>注册实验</title>
+    <title>Java实验1 - 注册</title>
     <meta charset="UTF-8">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"
           integrity="sha256-IdfIcUlaMBNtk4Hjt0Y6WMMZyMU0P9PN/pH+DFzKxbI=" rel="stylesheet">
@@ -59,6 +59,8 @@
     <input class="form-control" id="password" name="password" placeholder="密码" required type="password">
     <input name="from" type="hidden" value="<%=request.getParameter("from")%>">
     <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+    <a class="btn btn-lg btn-secondary btn-block"
+       href="<%=request.getContextPath()%>/sign-in/?from=<%=request.getParameter("from")%>">登录</a>
 </form>
 <%
     final String error = (String) request.getSession().getAttribute("errorMsg");
