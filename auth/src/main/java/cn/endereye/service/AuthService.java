@@ -4,14 +4,12 @@ package cn.endereye.service;
 
 import cn.endereye.model.User;
 import cn.endereye.util.Database;
-import cn.endereye.util.MD5;
 import io.jsonwebtoken.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Provide services to authenticate a user or token. There are two types of tokens: refresh token and access token. Both
@@ -26,11 +24,9 @@ public abstract class AuthService {
 
     public static final long TTL_ACCESS = 600000L; // ten minutes
 
-    public static final String KEY_REFRESH =
-            Objects.requireNonNull(MD5.md5("KEY_REFRESH" + System.getenv().toString()));
+    public static final String KEY_REFRESH = System.getProperty("auth.key.refresh");
 
-    public static final String KEY_ACCESS =
-            Objects.requireNonNull(MD5.md5("KEY_ACCESS" + System.getenv().toString()));
+    public static final String KEY_ACCESS = System.getProperty("auth.key.access");
 
     /**
      * Verify a pair of given username and password.
