@@ -15,7 +15,7 @@ public class Login extends HttpServlet {
             resp.sendRedirect("/URLTokenDemo/index.jsp");
         }
         else {
-            resp.sendRedirect("http://172.20.161.92:8080/auth/sign-in/?from="+ req.getRequestURL().toString() + "&method=url");
+            resp.sendRedirect("http://auth.javalab1.cyyself.name:8080/auth/sign-in/?from="+ req.getRequestURL().toString() + "&method=url");
         }
     }
 }

@@ -15,6 +15,6 @@ public class Logout extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.invalidate();
-        resp.sendRedirect("http://172.20.161.92:8080/auth/sign-out/?from=" + URLEncoder.encode(req.getHeader("referer"),"utf-8"));
+        resp.sendRedirect("http://auth.javalab1.cyyself.name:8080/auth/sign-out/?from=" + URLEncoder.encode(req.getHeader("referer"),"utf-8"));
     }
 }
