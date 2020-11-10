@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class Database {
-    public static final String DRIVER = "org.sqlite.JDBC";
-    public static final String DB_URL = "jdbc:sqlite:/home/cyy/JavaLab1/auth/2048.sqlite";//"jdbc:sqlite:/Users/cyy/JavaLab1/2048/db/main.db";
+    public static final String DRIVER = System.getProperty("2048.jdbc.driver");
+    public static final String DB_URL = System.getProperty("2048.jdbc.db_url");
     @FunctionalInterface
     public interface Task<T> {
         T apply(Connection connection) throws SQLException;

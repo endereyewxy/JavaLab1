@@ -1,4 +1,4 @@
-package org.cyyself.game2048.services;
+package org.cyyself.URLTokenDemo.services;
 
 import io.jsonwebtoken.*;
 

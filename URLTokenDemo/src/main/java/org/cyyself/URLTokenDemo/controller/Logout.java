@@ -1,4 +1,4 @@
-package org.cyyself.game2048.controller;
+package org.cyyself.URLTokenDemo.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +15,6 @@ public class Logout extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.invalidate();
-        resp.sendRedirect("/auth/sign-out/?from=" + URLEncoder.encode(req.getHeader("referer"),"utf-8"));
-        //resp.sendRedirect("http://172.20.161.92:8080/auth/sign-out/?from=" + URLEncoder.encode(req.getHeader("referer"),"utf-8"));
+        resp.sendRedirect("http://172.20.161.92:8080/auth/sign-out/?from=" + URLEncoder.encode(req.getHeader("referer"),"utf-8"));
     }
 }

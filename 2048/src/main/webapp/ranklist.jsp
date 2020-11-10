@@ -25,7 +25,7 @@
         </div>
         <div class="above-game">
             <p class="game-intro">排行榜</p>
-            <a class="rank-button" href="game">返回</a>
+            <a class="rank-button" href="index.jsp">返回</a>
         </div>
         <table>
             <tbody>
