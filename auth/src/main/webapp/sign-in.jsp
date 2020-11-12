@@ -60,7 +60,7 @@
     <input name="from" type="hidden" value="<%=request.getParameter("from")%>">
     <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
     <a class="btn btn-lg btn-secondary btn-block"
-       href="<%=request.getContextPath()%>/sign-up/?from=<%=request.getParameter("from")%>">注册</a>
+       href="<%=request.getContextPath()%>/sign-up/?from=<%=request.getParameter("from")%>&method=<%=request.getParameter("method")%>">注册</a>
 </form>
 <%
     final String error = (String) request.getSession().getAttribute("errorMsg");

@@ -28,12 +28,9 @@ public abstract class Redirect {
             throws IOException {
         request.getSession().setAttribute("errorMsg", error);
         // We must use a redirect since we need to add the `from` parameter into the URL.
-        String method = request.getParameter("method");
-        if (method == null)
-            method = "cookie";
         response.sendRedirect(String.format("%s?from=%s&method=%s",
                 request.getRequestURL(),
                 URLEncoder.encode(request.getParameter("from"), "UTF-8"),
-                URLEncoder.encode(method, "UTF-8")));
+                URLEncoder.encode(request.getParameter("method"), "UTF-8")));
     }
 }
