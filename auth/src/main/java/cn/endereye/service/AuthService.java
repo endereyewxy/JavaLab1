@@ -48,7 +48,7 @@ public abstract class AuthService {
                 // Update serial number and logout other users.
                 final PreparedStatement stmtSignOut =
                         connection.prepareStatement("UPDATE `user` SET `serial` = ? WHERE `id` = ?");
-                stmtSignOut.setLong(1, new Date().getTime());
+                stmtSignOut.setLong(1, new Date().getTime() / 1000);
                 stmtSignOut.setInt(2, user.getId());
                 stmtSignOut.executeUpdate();
                 return user;
@@ -106,7 +106,7 @@ public abstract class AuthService {
         Database.execute(connection -> {
             final PreparedStatement statement =
                     connection.prepareStatement("UPDATE `user` SET `serial` = ? WHERE `id` = ?");
-            statement.setLong(1, new Date().getTime());
+            statement.setLong(1, new Date().getTime() / 1000);
             statement.setInt(2, user.getId());
             statement.executeUpdate();
             return null;

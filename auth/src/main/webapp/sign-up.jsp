@@ -58,6 +58,7 @@
     <label class="sr-only" for="password">密码</label>
     <input class="form-control" id="password" name="password" placeholder="密码" required type="password">
     <input name="from" type="hidden" value="<%=request.getParameter("from")%>">
+    <input name="method" type="hidden" value="<%=request.getParameter("method")%>">
     <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
     <a class="btn btn-lg btn-secondary btn-block"
        href="<%=request.getContextPath()%>/sign-in/?from=<%=request.getParameter("from")%>&method=<%=request.getParameter("method")%>">登录</a>
